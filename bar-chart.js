@@ -47,8 +47,10 @@ function setup() {
   }
   max_sales = Math.ceil(max_sales/10) * 10 + 10;
 
+  text(0, 250, 425);
+  line(250, 395, 250, 405);
   text(max_sales, 690, 425);
-  line(690, 390, 690, 410);
+  line(690, 395, 690, 405);
 
 
   var num_ticks = 9;

@@ -32,11 +32,11 @@ function setup() {
 
   line(250, 400, 700, 400); //draw xaxis
   textAlign(CENTER); //draw the axis label
-  text('Sales (millions)', 475, 475);
+  text('Sales (millions)', 475, 460);
 
-  line(250, 400, 250, 50); //draw yaxis
+  line(250, 400, 250, 180); //draw yaxis
   textAlign(CENTER);
-  text('Console', 200, 25);
+  text('Video Game Sales by Console', 475, 150);
 
   // draw the ticks
   var max_sales = 0;
@@ -47,16 +47,51 @@ function setup() {
   }
   max_sales = Math.ceil(max_sales/10) * 10 + 10;
 
+  //label start and ending tiks
   text(0, 250, 425);
-  line(250, 395, 250, 405);
-  text(max_sales, 690, 425);
-  line(690, 395, 690, 405);
+  line(250, 395, 250, 405); // + 55
+  text(max_sales, 689, 425);
+  line(689, 395, 689, 405);
 
+  //draw the next tiks in between
+  var num_ticks = 8;
+  
+  var x = 305;
+  for (let i = 0; i < num_ticks; i++) {
+    line(x + (48 * i), 395, x + (48 * i), 405); //super secrety formulas that took me wayyyy too long
+    text(0 + (i + 1) * 20, x + (48 * i), 425);
+    console.log(x + (48 * i));
+  }
 
-  var num_ticks = 9;
+  
+  fill('#009900');
+  var length = sales_console['Sony PSP'];
+  rect(250, 325, length * 2.5, 35); //(where x?, where y?, x val, width)
+  fill(0);
+  text('Sony PSP', 210, 345);
 
+  fill('#009900');
+  var length = sales_console['PlayStation 3'];
+  rect(250, 285, length * 2.5, 35); //(where x?, where y?, x val, width)
+  fill(0);
+  text('Playstation 3', 210, 305);
 
+  fill('#009900');
+  var length = sales_console['Nintendo Wii'];
+  rect(250, 245, length * 2.5, 35); //(where x?, where y?, x val, width)
+  fill(0);
+  text('Nintendo Wii', 210, 265);
 
+  fill('#009900');
+  var length = sales_console['Nintendo DS'];
+  rect(250, 205, length * 2.5, 35); //(where x?, where y?, x val, width)
+  fill(0);
+  text('Nintendo DS', 210, 225);
 
+  fill('#009900');
+  var length = sales_console['X360'];
+  rect(250, 165, length * 2.5, 35); //(where x?, where y?, x val, width)
+  fill(0);
+  text('Xbox 360', 210, 180);
 
 }

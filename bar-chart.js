@@ -1,4 +1,5 @@
 let data;
+let sales_console;
 
 // preload table data
 function preload() {
@@ -12,22 +13,22 @@ function setup() {
   createCanvas(1000, 500);
   background(255);
 
-  var all_titles = data.getColumn("Title"); //data for the y axis
-  var sales = {}
-  var titles = {}
+  sales_console = createStringDict({});
+  var consoles = data.getColumn("Release.Console"); //data for the y axis
 
-  for (var i = 0; i < 10; i++) {
-    titles[i] = all_titles[i];
-    sales[i] = data.getRow(i).getString("Metrics.Sales");
+  consoles.forEach(element => {
+    sales_console.create(element, "0");
+  });
+
+  for (let i = 0; i < data.getRowCount(); i++) {
+    var console_type = data.getRow(i).getString("Release.Console");
+    var sale = data.getRow(i).getString("Metrics.Sales");
+    
+    sales_console.set(
+      console_type,
+      str(parseFloat(sales_console.get(console_type)) + parseFloat(sale))
+    );
   }
-
-  console.log(titles);
-  console.log(sales);
-
-  // how many rows?
-  console.log(data.getRowCount());
-  // what are the columns?
-  console.log(data.columns);
 
   //draw xaxis
   line(250, 400, 700, 400);

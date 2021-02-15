@@ -55,5 +55,14 @@ function setup() {
         }
     }
     rank.sort(function (a, b) { return a - b });
-    console.log(rank);
+
+    //draw the circles
+    fill('#1bc500')
+    pointX = 110;
+    pointY = 225; //control how high the circle is
+    dy = 0;
+    for (const key in rank) {
+        dy = rank[key];
+        circle(pointX, pointY - (dy/2), 18);
+    }
 }

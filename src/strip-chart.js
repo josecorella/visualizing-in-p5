@@ -4,7 +4,7 @@ let keys;
 // preload table data
 function preload() {
     data = loadTable(
-        'classics.csv',
+        '../data/classics.csv',
         'csv',
         'header');
 }

@@ -4,7 +4,7 @@ let consoles;
 // preload table data
 function preload() {
     data = loadTable(
-        'video_games.csv',
+        '../data/video_games.csv',
         'csv',
         'header');
 }

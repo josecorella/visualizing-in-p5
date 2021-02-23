@@ -1,8 +1,8 @@
 let rectX2 = 100;
 let rectSpeed1 = 5, rectSpeed2 = 1;
-let barWidth = 30;
 let max_year = 23;
 let curr_year = 0;
+let hrs = 0;
 let diff = 0;
 let y = 100;
 
@@ -21,17 +21,16 @@ function preload() {
 function setup() {
     createCanvas(2000, 1000);
     background(255);
+    // frameRate(10);
 
     function Stats (player, homeruns) {
-        this.player = player;
+        this.year = player;
         this.homeruns = homeruns;
     }
-    
-    var dict = []; // create an empty array
 
     for (let i = 0; i < data.getRowCount(); i++) {
-        var year = data.getRow(i).getString("year");
-        years[year] = [];
+        var player = data.getRow(i).getString("name");
+        players[player] = [];
     }
 
     for (let i = 0; i < data.getRowCount(); i++) {
@@ -39,16 +38,25 @@ function setup() {
         var player = data.getRow(i).getString("name");
         var homerun = data.getRow(i).getString("hr");
 
-        var entry = years[year];
-        entry.push(new Stats(player, homerun));
-        // entry.sort(function (a, b) {
-        //     return b.homeruns - a.homeruns;
-        // });
+        var entry = players[player];
+        entry.push(new Stats(year, homerun));
     }
 
-    line(200, 600, 1000, 600); //draw xaxis
+    
+
+    
+
+    console.log(players["Albert Pujols"].length);
+}
+
+function draw() {
+    background(255);
+    hrs = 0
+    diff = 30;
+
+    line(200, 890, 1000, 890); //draw xaxis
     textAlign(CENTER); //draw the axis label
-    text('Homeruns', 610, 650);
+    text('Homeruns', 610, 950);
 
     line(200, 600, 200, 100); //draw yaxis
     textAlign(CENTER);
@@ -59,71 +67,36 @@ function setup() {
 
     var x = 200;
     for (let i = 0; i < num_ticks; i++) {
-        line(x + (100 * i), 595, x + (100 * i), 605); //super secrety formulas that took me wayyyy too long
-        text(0 + i * 100, x + (100 * i), 625);
+        line(x + (100 * i), 885, x + (100 * i), 900); //super secrety formulas that took me wayyyy too long
+        text(0 + i * 100, x + (100 * i), 915);
     }
 
-    console.log(years);
-}
+    
 
-function draw() {
-
-
-    var year_entry = years[curr_year];
-    console.log(year_entry);
-
-    for (const player in year_entry) {
-        
+    for (const player in players) {
+        //player has played longer than the year we are in
+        if (players[player].length > curr_year ) {
+            hrs = players[player][curr_year].homeruns;    
+        } else { //player retired so grab last known amount
+            hrs = players[player][players[player].length - 1].homeruns;
+        }
+        draw_rect(player, 200, 70 + diff, hrs, 30, hrs);
+        diff += 40 
     }
 
-    if (curr_year < max_year) {
+    if (curr_year <= max_year) {
         curr_year++;
     } else {
-        curr_year = 0;
+        year = 0;
     }
-
-    // if (curr_year <= max_year) {
-    //     var year = curr_year.toString();
-    //     var items = years[year].slice(0, 10);
-        
-    //     items.forEach(element => {
-    //         draw_rect(200, y + diff, barWidth, 25);
-    //         console.log(y + diff);
-    //         diff += 35;
-    //     });
-    //     barWidth = 30;
-    // }
-
-    // for (const key in years) {
-        
-
-    //     for (let index = 0; index < 10; index++) {
-    //         //    x,   y,    w,      h 
-    //         rect(200, 100, barWidth, 25);
-    //         rect(200, 135, barWidth, 25);
-    //         rect(200, 170, barWidth, 25);
-    //         rect(200, 205, barWidth, 25);
-    //         rect(200, 240, barWidth, 25);
-    //         rect(200, 275, barWidth, 25);
-    //         rect(200, 310, barWidth, 25);
-    //         rect(200, 345, barWidth, 25);
-    //         rect(200, 380, barWidth, 25);
-    //         rect(200, 415, barWidth, 25);
-    //         if (barWidth < 500) {
-    //             barWidth = barWidth + 2.5 // Growing bar length 
-    //             // barWidth = 0;
-    //         }
-    //     }
-    //     barWidth = 30;
-    // }
 }
 
-function draw_rect(x, y, width, height) {
+function draw_rect(name, x, y, width, height, hrs) {
+    fill('#000000');
+    text(name, x - 50, y + 20);
     fill('#2056fd');
-    rect(200, 100, barWidth, 25);
-    if (barWidth < 500) {
-        barWidth = barWidth + 2.5 // Growing bar length
-        // barWidth = 0;
-    }
+    rect(x, y, width, height);
+    fill('#000000');
+    text(hrs, parseFloat(width) + x + 15, y + 20);
 }
 
